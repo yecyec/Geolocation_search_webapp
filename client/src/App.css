@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Kalam&family=Saira+Condensed:wght@300&display=swap');
+@import 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css';
+
+.App {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.content-wrapper {
+  flex: 1;
+}
+
+.landing-container {
+  width: 100vw;
+  height: 80vh;
+  flex-direction: column;
+}
+
+.landing-container .title {
+  font-size: 13vh;
+  font-family: 'Kalam', cursive;
+}
+
+.landing-container .intro {
+  font-size: 3vh;
+  font-family: 'Kalam', cursive;
+}
+
+.search-container {
+  width: 100%;
+  min-height: 80vh;
+}
+
+
+.notfound-container {
+  width: 100vw;
+  height: 80vh;
+  flex-direction: column;
+}
+
+.notfound-container .title {
+  font-size: 13vh;
+}
+
+.notfound-container .intro {
+  font-size: 3vh;
+}
+
+footer {
+  height: 50px;
+  width: 100%;
+  padding-top: 15px;
+  text-align: center;
+}
