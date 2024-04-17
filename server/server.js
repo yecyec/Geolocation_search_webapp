@@ -1,0 +1,9 @@
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+    res.send('<h1>Hello, web application server</h1>');
+});
+
+const port = process.env.PORT || 3001;
+app.listen(port, console.log(`Server is running on port ${port}`));
