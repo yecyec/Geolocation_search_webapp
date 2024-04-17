@@ -5,7 +5,6 @@ import LandingPage from './components/LandingPage';
 import SearchPage from './components/SearchPage';
 import Footer from './components/Footer';
 import NotFoundPage from './components/NotFoundPage';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 

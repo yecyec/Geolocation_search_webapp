@@ -28,8 +28,8 @@ function computeScore(location, lat, long, limit) {
         return 0.0;
     }
 
-    const score = 1 - (distance / limit);
-    return score;
+    let score = 1 - (distance / limit);
+    return Math.round(score * 10) / 10
 }
 
 module.exports.searchByKeyword = async (req, res) => {
