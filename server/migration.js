@@ -25,6 +25,7 @@ con.connect((err) => {
             // Query to create table
             var createStatament =  
             `CREATE TABLE geolocation (
+                id INT AUTO_INCREMENT PRIMARY KEY,
                 street VARCHAR(32),
                 city VARCHAR(32),
                 zip_code VARCHAR(20),
@@ -49,8 +50,9 @@ const fileName = "geolocation_data.csv";
 csvtojson().fromFile(fileName).then(source => { 
   
     // Fetching the data from each row and inserting to the table 
-    let street, city, zip_code, county, country, latitude, longitude, time_zone;
+    let id, street, city, zip_code, county, country, latitude, longitude, time_zone;
     for (var i = 0; i < source.length; i++) { 
+        id = i + 1,
         street = source[i]["street"], 
         city = source[i]["city"], 
         zip_code = source[i]["zip_code"], 
@@ -62,8 +64,8 @@ csvtojson().fromFile(fileName).then(source => {
 
   
         var insertStatement =  
-        `INSERT INTO geolocation values(?, ?, ?, ?, ?, ?, ?, ?)`; 
-        var items = [street, city, zip_code, county, country, latitude, longitude, time_zone]; 
+        `INSERT INTO geolocation values(?, ?, ?, ?, ?, ?, ?, ?, ?)`; 
+        var items = [id, street, city, zip_code, county, country, latitude, longitude, time_zone]; 
   
         // Inserting data of current row 
         // into database 
