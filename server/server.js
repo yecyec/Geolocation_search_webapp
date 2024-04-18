@@ -8,11 +8,15 @@ app.use(cors());
 app.use(express.json());
 
 const db = require('./dbConnection');
+
 db.sequelize.authenticate().then(() => {
     console.log('Connection has been established successfully.');
  }).catch((error) => {
     console.error('Unable to connect to the database: ', error);
  });
+
+const redisClient = require('./cacheConnection');
+redisClient.connect();
 
 const searchRoute = require('./routes/searchRoutes')
 

@@ -1,4 +1,5 @@
 const { Op } = require('sequelize');
+const redisClient = require('../cacheConnection');
 const Geolocation = require('../models/geolocationModel');
 
 // Function to convert degrees to radians
@@ -32,6 +33,7 @@ function computeScore(location, lat, long, limit) {
     return Math.round(score * 10) / 10
 }
 
+
 module.exports.searchByKeyword = async (req, res) => {
     try {
         const keyword = req.query.q;
@@ -39,33 +41,55 @@ module.exports.searchByKeyword = async (req, res) => {
         const longitude = req.query.longitude;
 
         console.log(keyword, latitude, longitude)
+        
+        let locations;
+        const keyExists = await redisClient.exists(keyword)
+        if (keyExists) {
+            let locationsData = await redisClient.get(keyword);
+            locations = JSON.parse(locationsData);
+            console.log('locaiton', locations)
+        } else {
+            locations = await Geolocation.findAll({
+                where: {
+                  street: {
+                    [Op.substring]: keyword
+                    // [Op.iLike]: `%${keyword}%`
+                  }
+                }
+            });
+            await redisClient.set(keyword, JSON.stringify(locations));
+        }
 
-        const locations = await Geolocation.findAll({
-            where: {
-              street: {
-                [Op.substring]: keyword
-              }
-            }
-        });
         
         if (locations.length === 0) {
             res.send({"suggestions": []});
             return;
         }
 
-        let limit = 1000;
-        let suggestions = locations.map(location => ({
-            name: [location.street, location.city, location.county, location.country].join(", "),
-            latitude: location.latitude,
-            longitude: location.longitude,
-            score: computeScore(location, latitude, longitude, limit)
-        })).filter(location => location.score > 0);
-
+        let suggestions;
+        if (!latitude && !longitude) {
+            suggestions = locations.map(location => ({
+                name: [location.street, location.city, location.county, location.country].join(", "),
+                latitude: location.latitude,
+                longitude: location.longitude,
+                score: Math.round((keyword.length / location.street.length) * 10) / 10
+            }))
+        } else {
+            let limit = 1000;
+            suggestions = locations.map(location => ({
+                name: [location.street, location.city, location.county, location.country].join(", "),
+                latitude: location.latitude,
+                longitude: location.longitude,
+                score: computeScore(location, latitude, longitude, limit)
+            })).filter(location => location.score > 0);
+        }
+    
         suggestions.sort((a, b) => b.score - a.score);
-
+          
         res.send({"suggestions": suggestions})
 
     } catch (err) {
         console.log(err)
+        res.status(500).send('Internal Server Error: ' + err.message);
     }
 }

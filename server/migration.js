@@ -67,8 +67,7 @@ csvtojson().fromFile(fileName).then(source => {
         `INSERT INTO geolocation values(?, ?, ?, ?, ?, ?, ?, ?, ?)`; 
         var items = [id, street, city, zip_code, county, country, latitude, longitude, time_zone]; 
   
-        // Inserting data of current row 
-        // into database 
+        // Inserting data of current row into database 
         con.query(insertStatement, items,  
             (err, results, fields) => { 
             if (err) { 
@@ -78,4 +77,7 @@ csvtojson().fromFile(fileName).then(source => {
         }); 
     } 
     console.log( "All items stored into database successfully"); 
-}); 
+}).catch((err) => {
+    // Handle any errors that occur during CSV parsing
+    console.error(err);
+});

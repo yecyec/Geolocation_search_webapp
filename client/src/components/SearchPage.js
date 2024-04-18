@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 
 function SearchPage(){
@@ -8,36 +8,80 @@ function SearchPage(){
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      console.log('Search Name:', searchName);
-      console.log('Latitude:', latitude);
-      console.log('Longitude:', longitude);
-      
-      const environment = 'development'
-      const apiUrl = environment === 'development' ? 'http://localhost:3001' : 'https://production-domain.com:port';
+    const [error, setError] = useState('');
 
-      setLoading(true);
-      setMessage('');
-      const url = `${apiUrl}/search?q=${searchName}&latitude=${latitude}&longitude=${longitude}`;
-      console.log(url)
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          setData(data.suggestions);
-          if (data.suggestions.length === 0) {
-            setMessage('No results within 1000 km');
-          }
-          console.log(data)
-          setLoading(false);
+    useEffect(() => {
+        // Alert after the state has been updated
+        if (error) {
+            alert(`Error: ${error}`);
+        }
+      }, [error]); 
+    
+    const validateInputs = () => {
+        setError('');
+         
+        if (searchName === '' || (Boolean(latitude) !== Boolean(longitude))) {
+            setError('Either search name, latitude, and longitude or only the search name be provided.');
+            return false;
+        }
+
+        if ((latitude && isNaN(Number(latitude))) || (longitude && isNaN(Number(longitude)))) {
+            setError('Latitude and longitude must be numbers.');
+            return false;
+        }
+      
+        if (latitude && (Number(latitude) < -90 || Number(latitude) > 90)) {
+            setError('Latitude must be between -90 and 90.');
+            return false;
+        }
+    
+        if (longitude && (Number(longitude) < -180 || Number(longitude) > 180)) {
+            setError('Longitude must be between -180 and 180.');
+            return false;
+        }
+      
+        return true;
+    }
+
+    const inputProcess = () => {
+        setSearchName(searchName.trim());
+        setLatitude(latitude.trim());
+        setLongitude(longitude.trim());
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        inputProcess();
+
+        let isValid = validateInputs();
+        if (!isValid) {
+            console.log(`error ${error}`);
+            return;
+        }
+            
+        const domainUrl = 'http://localhost:3001';
+
+        setLoading(true);
+        setMessage('');
+
+        const url = (latitude && longitude) ? `${domainUrl}/search?q=${searchName}&latitude=${latitude}&longitude=${longitude}` :  `${domainUrl}/search?q=${searchName}`;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+            setData(data.suggestions);
+            if (data.suggestions.length === 0) {
+                setMessage('No results within 1000 km');
+            }
+            console.log(data)
+            setLoading(false);
         })
         .catch(error => {
-          console.error('Error:', error);
-          setLoading(false);
+            console.error('Error:', error);
+            setLoading(false);
         });
 
-      setLoading(false);
+        setLoading(false);
     };
     
     return (
@@ -48,7 +92,7 @@ function SearchPage(){
                 <div className="row mb-4">
                   <div className="col-md-4">
                     <div className="form-group">
-                      <label htmlFor="searchName">Search by Name</label>
+                      <label htmlFor="searchName">Search by Street Name</label>
                       <input 
                         type="text" 
                         className="form-control" 
