@@ -1,7 +1,9 @@
 const  { createClient } = require('redis');
 
+// Initialze Redis client 
 const redisClient = createClient()
 
+// Redis client methods
 redisClient.on('connect', function() {
     console.log('Connected!');
 });

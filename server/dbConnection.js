@@ -3,6 +3,7 @@ const Sequelize = require("sequelize");
 
 const db = {};
 
+// Initialize database data
 const sequelize = new Sequelize(
     process.env.DB_NAME,
     process.env.DB_USER,

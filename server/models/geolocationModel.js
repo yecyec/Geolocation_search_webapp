@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const db = require('../dbConnection');
 const sequelize = db.sequelize;
 
+// Define Geolocation model
 const Geolocation = sequelize.define('Geolocation', {
     street: {
       type: DataTypes.STRING(32),

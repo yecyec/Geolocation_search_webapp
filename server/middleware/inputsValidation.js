@@ -1,3 +1,4 @@
+// Middleware to validate parameters from requests
 function validateInputs(req, res, next) {
 
     const keyword = req.query.q;

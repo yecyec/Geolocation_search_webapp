@@ -5,6 +5,7 @@ const validateInputs = require('../middleware/inputsValidation');
 
 const router = express.Router();
 
+// Search Route
 router.get("/", validateInputs, searchController.searchByKeyword);
 
 module.exports = router;
