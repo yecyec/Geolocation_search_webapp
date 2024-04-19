@@ -10,13 +10,14 @@ function SearchPage(){
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
 
+    // Alert after the state has been updated
     useEffect(() => {
-        // Alert after the state has been updated
         if (error) {
             alert(`Error: ${error}`);
         }
       }, [error]); 
     
+    // Validate the inputs
     const validateInputs = () => {
         setError('');
          
@@ -43,12 +44,14 @@ function SearchPage(){
         return true;
     }
 
+    // process the inputs
     const inputProcess = () => {
         setSearchName(searchName.trim());
         setLatitude(latitude.trim());
         setLongitude(longitude.trim());
     }
 
+    // handle click search button
     const handleSubmit = async (e) => {
         e.preventDefault();
 
