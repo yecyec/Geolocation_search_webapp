@@ -5,15 +5,14 @@ const db = {};
 
 // Initialize database data
 const sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
-     {
-       host: process.env.DB_HOST,
-       dialect: 'mysql'
-     }
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: 'mysql',
+  }
 );
-
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

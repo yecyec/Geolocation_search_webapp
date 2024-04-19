@@ -1,9 +1,9 @@
 
 const express = require('express');
 const cors = require('cors');
-const db = require('./dbConnection');
-const redisClient = require('./cacheConnection');
-const searchRoute = require('./routes/searchRoutes')
+const db = require('./src/repository/dbConnection');
+const redisClient = require('./src/repository/cacheConnection');
+const searchRoute = require('./src/routes/searchRoutes')
 
 // Initialize the server
 const app = express();
@@ -14,16 +14,16 @@ app.use(express.json());
 
 // Establish connection to the database 
 db.sequelize.authenticate().then(() => {
-    console.log('Connection has been established successfully.');
- }).catch((error) => {
-    console.error('Unable to connect to the database: ', error);
- });
+   console.log('Connection has been established successfully.');
+}).catch((error) => {
+   console.error('Unable to connect to the database: ', error);
+});
 
 // Establish connection to the Redis 
 redisClient.connect();
 
 // Routes
-app.get('/', (req, res) => { res.send('<h1>Hello, web application server</h1>');});
+app.get('/', (req, res) => { res.send('<h1>Hello, web application server</h1>'); });
 app.use('/search', searchRoute);
 
 // Run the server
