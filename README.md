@@ -101,7 +101,7 @@ Caching is an important technique for enhancing efficiency, particularly when de
 Another optimization technique is using asynchronous loading for requests in the frontend. This means that while waiting for responses from the server, the frontend can continue doing other tasks, which provides better user experience.
 
 ### Testing
-To test the reliability and functionality of the application, unit tests have been added to the search.test.js file.
+To test the reliability and functionality of the application, unit tests have been added to the searchController.spec.js and computeScore.spec.js files.
 
 **To execute the test file**
 ```
