@@ -68,7 +68,7 @@ DB_USER=""
 DB_PASSWORD=""
 ```
 
-4. Install, Start and Connect to redis server.
+4. Install, Start and Connect to redis server.  
 **If you are using MacOS**
 ```
 # Install redis
@@ -79,7 +79,7 @@ redis-server
 ```
 
 **If you are using Windows**
-Please refer to the link to install:
+Please refer to the link to install:  
 https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-windows/
 ```
 # Start redis server
@@ -87,7 +87,7 @@ sudo service redis-server start
 ```
 
 **If you are using Linux**
-Please refer to the link:
+Please refer to the link:  
 https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-linux/
 
 5. Start Server
