@@ -44,17 +44,60 @@ cd server
 npm install
 ```
 
-3. Start your mysql and redis server
-The command varies depending on your environment.
+3. Install, Start and Connect to mysql database.
+- Install and Start mysql server with the instructions on the following link.
+https://dev.mysql.com/doc/mysql-getting-started/en/#mysql-getting-started-installing
 
-4. Start Server
+- Create a user with your username and password if you do not have one.
+
+- Login mysql command-line client
+```
+mysql -u your_username -p
+```
+
+- Create a database in mysql command line
+```
+CREATE DATABASE datastealth;
+```
+
+- Put your username and password into .env file in server folder.
+```
+DB_HOST="localhost"
+DB_NAME="datastealth"
+DB_USER=""
+DB_PASSWORD=""
+```
+
+4. Install, Start and Connect to redis server.
+**If you are using MacOS**
+```
+# Install redis
+brew install redis
+
+# Start redis server
+redis-server
+```
+
+**If you are using Windows**
+Please refer to the link to install:
+https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-windows/
+```
+# Start redis server
+sudo service redis-server start
+```
+
+**If you are using Linux**
+Please refer to the link:
+https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-linux/
+
+5. Start Server
 ```
 # Open a new terminal, navigate to the server directory
 cd server
 node server
 ```
 
-5. Start Frontend 
+6. Start Frontend 
 ```
 # Open a new terminal, navigate to the client directory
 cd client
